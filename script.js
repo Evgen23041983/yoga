@@ -55,9 +55,9 @@ window.addEventListener('DOMContentLoaded', function() {
 
         let hours = Math.floor((t/(1000*60*60)));
         if (Math.floor((t/(1000*60*60))) < 10 ) {
-            minutes = '0' +  Math.floor((t/(1000*60*60)));
+            hours = '0' +  Math.floor((t/(1000*60*60)));
         } else {
-            minutes =  Math.floor((t/(1000*60*60)));
+            hours =  Math.floor((t/(1000*60*60)));
         };
 
         return {
@@ -88,5 +88,33 @@ window.addEventListener('DOMContentLoaded', function() {
     }
 
     setClock('timer', deadline);
+
+    //modal
+    function showModal() {
+        overlay.style.display = 'block';
+        this.classList.add('more-splash');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+        overlay.style.display = 'none';
+        more.classList.remove('more-splash');
+        document.body.style.overflow = '';
+
+    }
+
+    let more = document.querySelector('.more'),
+        overlay = document.querySelector('.overlay'),
+        close = document.querySelector('.popup-close');
+        des = document.querySelectorAll('.description-btn');
+
+        
+        for (let i = 0; i < des.length; i++) {
+            des[i].addEventListener('click', showModal);
+           
+        }
+ 
+        more.addEventListener('click', showModal);
+        close.addEventListener('click', closeModal);
 });
 
