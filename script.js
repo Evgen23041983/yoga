@@ -35,7 +35,7 @@ window.addEventListener('DOMContentLoaded', function() {
 
     //timer
 
-    let deadline = '2020-02-01';
+    let deadline = '2020-02-11';
 
     function getTimeRemaining(endtime) {
         let t = Date.parse(endtime) - Date.parse(new Date());
@@ -116,5 +116,87 @@ window.addEventListener('DOMContentLoaded', function() {
  
         more.addEventListener('click', showModal);
         close.addEventListener('click', closeModal);
+
+        //form
+
+        let message = {
+            loading: 'Загрузка',
+            success: 'Спасибо! Скоро свяжемся',
+            failure: 'Что-то пошло не так..'
+        };
+
+        let form = document.querySelector('.main-form');
+        let input = document.querySelector('.popup-form__input');
+        let statucMessage = document.createElement('div');
+
+            statucMessage.classList.add('status');
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            form.appendChild(statucMessage);
+
+            let request = new XMLHttpRequest();
+            request.open('POST', 'server.php');
+            request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+            let formData1 = new formData(form);
+            request.send(formData1);
+        })    
+
+        //slider
+        let slideIndex = 1,
+            slides = document.querySelectorAll('.slider-item'),
+            prev = document.querySelector('.prev'),
+            next = document.querySelector('.next'),
+            dotsWrap = document.querySelector('.slider-dots'),
+            dots = document.querySelectorAll('.dot');
+        
+        showSlides(slideIndex);
+
+        function showSlides(n) {
+
+            if (n > slides.length) {
+               slideIndex = 1;
+            }
+            if (n < 1) {
+                slideIndex = slides.length;
+            }
+
+            slides.forEach((item) => item.style.display = 'none');
+            //for (let i = 0; i < slides.length; i++) {
+               // slides[i].style.display = 'none';
+            //}
+            dots.forEach((item) => item.classList.remove('dot-active'));
+
+            slides[slideIndex - 1].style.display = 'block';
+            dots[slideIndex - 1].classList.add('dot-active');
+        }
+
+        function plusSlides(n) {
+            showSlides(slideIndex += n);
+        }
+        function currentSlide(n) {
+            showSlides(slideIndex = n);
+        }
+
+        prev.addEventListener('click', function() {
+            plusSlides(-1);
+        });
+
+        next.addEventListener('click', function() {
+            plusSlides(1);
+        });
+
+        dotsWrap.addEventListener('click', function(event) {
+            for (let i = 0; i < dots.length + 1; i++) {
+                if (event.target.classList.contains('dot') && event.target == dots[i-1]) {
+                    currentSlide(i);
+                }
+            }
+        })
+
+        
+
+
 });
 
